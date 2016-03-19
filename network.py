@@ -109,7 +109,7 @@ class NeuronNetwork:
                 for comp in range(1, len(self.neurons)):
                     for pos in range(len(self.neurons[comp])):
                         self.recount_edges(self.neurons[comp][pos])  
-        print('Done. Time used: ' + getTime(int(time() - stime)))        
+        if show_process: print('Done. Time used: ' + getTime(int(time() - stime)))        
        
     def check(self, inp):
         #Changing start values
