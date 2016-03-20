@@ -1,13 +1,13 @@
 from network import *
     
-#In this example I am going to show you how to work with my neuron network
+#In this example I am going to show you how to work with my neural network
 
-#This line is creating the neuron network. There are 4 parameters, that you can change:
+#This line is creating the neural network. There are 4 parameters, that you can change:
 #-template. In this array you choose, how many neurons will be in each component.  Default - [0]
 #-co. Learning coefficient. I don't know what this is used for :P  Default = 0.7
 #-nmin. The minimum value, that the network will get/give (only positive).  Default - 0
 #-nmax. The maximum value, that the network will get/give (only positive).  Default - 1
-nw = NeuronNetwork(template=[1, 10, 10, 1], co=0.7, nmin=0, nmax=3000)
+nw = NeuralNetwork(template=[1, 10, 10, 1], co=0.7, nmin=0, nmax=3000)
 
 #Now we are educating the network. There are 2 parameters, that you can change:
 #-filename. This is the name of the file (should be in the current directory).  Default - 'education.txt'
@@ -30,7 +30,7 @@ nw.save(filename="network.txt")
 
 #The network is saved, let's load it.
 #Load function also has only one parameter, which is the same, as in the save function.
-nw2 = NeuronNetwork()
+nw2 = NeuralNetwork()
 nw2.load(filename="network.txt")
 
 #NeuronNetwork2 is loaded, let's check it.

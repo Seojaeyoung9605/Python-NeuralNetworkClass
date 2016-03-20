@@ -66,19 +66,19 @@ class NeuronNetwork:
         tasks = open(filename).readlines()
         
         if show_process:
-            allcount = len(tasks)
+            allcount = len(tasks) * rep
             cnt = 0
             prcnt = 0
             stime = time()
-            
-        for task in tasks:
-            if show_process:  # Displaying the job, that is already done, and the time that is left
-                cnt += 1
-                if int(cnt / allcount * 100) > prcnt:
-                    prcnt += 1
-                    timeleft = getTime(int((100 - prcnt) * ((time() - stime) / prcnt)))
-                    print(str(prcnt) + '%;  Time left: ' + timeleft)
-            for rp in range(rep):        
+        
+        for rp in range(rep):            
+            for task in tasks:
+                if show_process:  # Displaying the job, that is already done, and the time that is left
+                    cnt += 1
+                    if int(cnt / allcount * 100) > prcnt:
+                        prcnt += 1
+                        timeleft = getTime(int((100 - prcnt) * ((time() - stime) / prcnt)))
+                        print(str(prcnt) + '%;  Time left: ' + timeleft)                
                 variables = list(map(int, task.split()))  # Input and output variables are all in one line. Input variables are the first template[0] ones, and output = the rest (actually, it is template[-1])
                 
                 #Sorting the inputs according to the template    
@@ -109,7 +109,7 @@ class NeuronNetwork:
                 for comp in range(1, len(self.neurons)):
                     for pos in range(len(self.neurons[comp])):
                         self.recount_edges(self.neurons[comp][pos])  
-        print('Done. Time used: ' + getTime(int(time() - stime)))        
+        if show_process: print('Done. Time used: ' + getTime(int(time() - stime)))        
        
     def check(self, inp):
         #Changing start values
