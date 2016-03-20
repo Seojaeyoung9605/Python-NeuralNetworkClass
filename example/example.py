@@ -9,7 +9,7 @@ from network import *
 #-nmax. The maximum value, that the network will get/give (only positive).  Default - 1
 nw = NeuralNetwork(template=[1, 10, 10, 1], co=0.7, nmin=0, nmax=3000)
 
-#Now we are educating the network. There are 2 parameters, that you can change:
+#Now we are educating the network. There are 3 parameters, that you can change:
 #-filename. This is the name of the file (should be in the current directory).  Default - 'education.txt'
 #-show_process. If true, this will show you the process of education (percentage, time left, etc.).  Default - False
 #-rep. Repetitions. The number of times, that the network is going to educate on the given file.  Default - 1
