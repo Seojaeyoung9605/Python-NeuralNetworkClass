@@ -14,7 +14,7 @@ class Neuron:
         return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.mistake) + ")" 
 
 
-class NeuronNetwork:
+class NeuralNetwork:
     def __init__(self, template=[0], co=0.7, nmin=0, nmax=1):
         self.template = template
         self.co = co
