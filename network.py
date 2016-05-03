@@ -12,7 +12,7 @@ class Neuron:
         self.inc = inc[::]  # Indexes of INCOMING neurons (they are all in comp-1 component)
         self.outc = outc[::]  # Indexes of OUTCOMING neurons (they are all in comp+1 component)
     
-    def __str__(self):
+    def __str__(self): 
         return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.mistake) + ", " + str(self.inc) + ", " + str(self.outc) + ")" 
 
 
