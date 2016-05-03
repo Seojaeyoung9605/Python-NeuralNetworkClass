@@ -4,26 +4,53 @@ from time import time
 
 
 class Neuron:
-    def __init__(self, value, comp, pos, mistake=-1):
-        self.value = value
-        self.comp = comp
-        self.pos = pos
-        self.mistake = mistake
+    def __init__(self, value, comp, pos, mistake, inc, outc):
+        self.value = value  # The value of the neuron
+        self.comp = comp  # Neuron's component
+        self.pos = pos  # Neuron's position in the component
+        self.mistake = mistake  # Neuron's mistake
+        self.inc = inc[::]  # Indexes of INCOMING neurons (they are all in comp-1 component)
+        self.outc = outc[::]  # Indexes of OUTCOMING neurons (they are all in comp+1 component)
     
     def __str__(self):
-        return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.mistake) + ")" 
+        return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.inc) + ", " + str(self.outc) + ", " + str(self.mistake) + ")" 
 
 
 class NeuralNetwork:
-    def __init__(self, template=[0], co=0.7, nmin=0, nmax=1):
-        self.template = template
-        self.co = co
+    def __init__(self, template=[0], syn_prc=100, co=0.7, nmin=0, nmax=1):
+        self.template = template  # Template for the net (template[i] = number of neurons in 'i' component)
+        self.syn_prc = syn_prc  # The percent of synapses, that the network will create. By default each neuron is connected with each.
+        self.co = co  # Idk.
         self.nmin = nmin  # This is the minimum possible value, that can be received from the input
         self.nmax = nmax  # And the largest possible value. We need this because all the neurons' impulses must be in the range(0, 1), so we are going to 'transform' input and output to that range.
-        #Creating neurons array
-        self.neurons = [[Neuron(randint(-100, 100) / 100, comp, pos) for pos in range(template[comp])] for comp in range(len(template))]
+        
         #Creating the matrix of edges between neurons (matrix[x][i][j] is the edge from the neurons on pos 'i' in comp 'x' to the neuron on pos 'j' in comp 'x + 1'
-        self.matrix = [[[randint(-100, 100) / 100 for to in range(template[comp + 1])] for frm in range(template[comp])] for comp in range(len(template) - 1)]
+        self.matrix = [[[0 for to in range(template[comp + 1])] for frm in range(template[comp])] for comp in range(len(template) - 1)]        
+        #Creating neurons array
+        self.neurons = [[Neuron(randint(-100, 100) / 100, comp, pos, -1, [], []) for pos in range(template[comp])] for comp in range(len(template))]
+        
+        #Adding outcoming neurons
+        for comp in range(len(template) - 1):  # Cycling for components
+            for n1 in range(template[comp]):  # The 'main' neuron
+                for n2 in range(template[comp + 1]):  # Main neuron's neighbours
+                    if randint(0, 99) < syn_prc:
+                        self.neurons[comp][n1].outc.append(n2)
+                        self.neurons[comp + 1][n2].inc.append(n1)
+                        self.matrix[comp][n1][n2] = randint(-100, 100) / 100
+                if len(self.neurons[comp][n1].outc) == 0:  # If we didn't add anything
+                    n2 = randint(0, template[comp + 1] - 1)
+                    self.neurons[comp][n1].outc.append(n2)
+                    self.neurons[comp + 1][n2].inc.append(n1)
+                    self.matrix[comp][n1][n2] = randint(-100, 100) / 100
+        #Adding incoming neurons, if we didn't add some
+        for comp in range(1, len(template)):
+            for n1 in range(template[comp]):
+                if len(self.neurons[comp][n1].inc) == 0:
+                    n2 = randint(0, template[comp - 1] - 1)
+                    self.neurons[comp][n1].inc.append(n2)
+                    self.neurons[comp - 1][n2].outc.append(n1)
+                    self.matrix[comp - 1][n2][n1] = randint(-100, 100) / 100
+        
     
     def toRange(self, n):  # This function puts 'n' into the range(0, 1)
         #return (n - (self.nmax - self.nmin) // 2) / ((self.nmax - self.nmin) // 2 + 1)
