@@ -13,7 +13,7 @@ class Neuron:
         self.outc = outc[::]  # Indexes of OUTCOMING neurons (they are all in comp+1 component)
     
     def __str__(self):
-        return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.inc) + ", " + str(self.outc) + ", " + str(self.mistake) + ")" 
+        return "Neuron(" + str(self.value) + ", " + str(self.comp) + ", " + str(self.pos) + ", " + str(self.mistake) + ", " + str(self.inc) + ", " + str(self.outc) + ")" 
 
 
 class NeuralNetwork:
@@ -158,6 +158,7 @@ class NeuralNetwork:
         fout = open(filename, 'w')
         print(self.template, file=fout)
         print(self.co, file=fout)
+        print(self.syn_prc, file=fout)
         print(self.nmin, file=fout)
         print(self.nmax, file=fout)
         print(self.matrix, file=fout)
@@ -165,9 +166,10 @@ class NeuralNetwork:
         fout.close()
     
     def load(self, filename="network.txt"):
-        template, co, nmin, nmax, matrix, neurons = open(filename).readlines()
+        template, co, syn_prc, nmin, nmax, matrix, neurons = open(filename).readlines()
         self.template = eval(template)
         self.co = eval(co)
+        self.syn_prc = eval(syn_prc)
         self.nmin = eval(nmin)
         self.nmax = eval(nmax)
         self.matrix = eval(matrix)
