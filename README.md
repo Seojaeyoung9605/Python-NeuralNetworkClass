@@ -4,10 +4,11 @@ This is a class in python for the neural network.
 ## Creating the network
 This line is creating the neural network.
 ```python
-nw = NeuralNetwork(template=[1, 10, 10, 1], co=0.7, nmin=0, nmax=3000)
+nw = NeuralNetwork(template=[1, 10, 10, 1], syn_prc=80, co=0.7, nmin=0, nmax=3000)
 ```
-There are 4 parameters, that you can change:
+There are 5 parameters, that you can change:
 - **template**. In this array you choose, how many neurons will be in each component.  **Default - [0]**
+- **syn_prc**. By changing this parameter you can change the amount of synapses in your network - from default 100% (each with each) to 1% (each neuron has one input and one output). So, if the value is small, the network works faster, but the mistake is bigger.  **Default - 100**
 - **co**. Learning coefficient. I don't know what this is used for :P  **Default = 0.7**
 - **nmin**. The minimum value, that the network will get/give (only positive).  **Default - 0**
 - **nmax**. The maximum value, that the network will get/give (only positive).  **Default - 1**
