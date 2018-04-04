@@ -1,57 +1,55 @@
 # NeuralNetworkClass
-This is a class in python for the neural network.
+This is a class in python for the neural network.  
 
 ## Creating the network
-This line is creating the neural network.
+This line is creating the neural network.  
 ```python
 nw = NeuralNetwork(template=[1, 10, 10, 1], syn_prc=80, co=0.7, nmin=0, nmax=3000)
 ```
-There are 5 parameters, that you can change:
-- **template**. In this array you choose, how many neurons will be in each component.  **Default - [0]**
-- **syn_prc**. By changing this parameter you can change the amount of synapses in your network - from default 100% (each with each) to 1% (each neuron has one input and one output). So, if the value is small, the network works faster, but the mistake is bigger.  **Default - 100**
-- **co**. Learning coefficient. I don't know what this is used for :P  **Default = 0.7**
-- **nmin**. The minimum value, that the network will get/give (only positive).  **Default - 0**
-- **nmax**. The maximum value, that the network will get/give (only positive).  **Default - 1**
+The constructor has 5 arguments:  
+- **template**. In this list you can select the amount of neurons in each component.  **Default - [0]**
+- **syn_prc**. By changing this parameter you can change the amount of synapses in your network - from default 100% (each with each) to 1% (each neuron has one input and one output). So, if the value is small, the network works faster, but the error is bigger.  **Default - 100**
+- **co**. Learning coefficient. Some sorf of a bias.  **Default = 0.7**
+- **nmin**. The minimum value, that the network will get/give (positive only).  **Default - 0**
+- **nmax**. The maximum value, that the network will get/give (positive only).  **Default - 1**
 
-## Educating the network
-If you want your network to do something, you need to educate it. And ***educate*** function does that.
+## Training the network
+If you want your network to do something, you need to train it. You can do it with the ***train*** method:  
 ```python
-nw.educate(filename="education.txt", show_process=True, rep=10)
+nw.train(filename="train.txt", verbose=True, rep=10)
 ```
-There are 3 parameters, that you can change:
-- **filename**. This is the name of the file (should be in the current directory).  **Default - 'education.txt'**
-- **show_process**. If true, this will show you the process of education (percentage, time left, etc.).  **Default - False**
-- **rep**. Repetitions. The number of times, that the network is going to educate on the given file.  **Default - 1**
+The ***train*** method has 3 arguments:  
+- **filename**. This is the name of the file (has to be in the current directory).  **Default - 'train.txt'**
+- **verbose**. If true, this will show you the training process (percentage, time left, etc.).  **Default - False**
+- **rep**. Repetitions. The number of times that the network will train on the given file.  **Default - 1**
 
-In the education file one line is one task. First *template[0]* numbers are the input numbers, and the rest *template[-1]* numbers are the output (desired answer) numbers.
+In the training file one line is one task. First *template[0]* numbers are the input numbers, and the rest *template[-1]* numbers are the desired outputs.  
 
 ## Using the network
-So, now we've got the educated network. Let's check something.
-In this example the network was educated to multiple numbers in range(1, 1000) by 3. Let's check.
-Function ***check*** receives an array with *length = template[0]* of input signals for the input neurons. This values should be in range(nmin, nmax).
+So, now we've got the educated network. Let's make it predict things.
+In this example the network was trained to multiply numbers in range(1, 1000) by 3.  
+The ***check*** method receives a list with *length = template[0]* of values for the input neurons. They have to be in range(nmin, nmax).  
 ```python
-a = int(input())
-print(nw.check([a]))
+values = list(map(int, input().split()))
+print(nw.predict(values))
 ```
 
 ## Saving the network to file
-The network is educated, and is working.. khm, quite good, yes.
-But the education took a lot of time. So now let's save it.
-In save function there is only one parameter - **filename**.  **Default = 'network.txt'**
+If you don't want to lose your trained network, you can save it.  
+The ***save*** method acceptc a filename as an argument and saves the network's data to it. **Default filename - 'network.net'**  
 ```python
-nw.save(filename="network.txt")
+nw.save(filename="network.net")
 ```
 
 ## Loading the network from file
-The network is saved, let's load it.
-Load function also has only one parameter, which is the same, as in the save function.
+Once you have a saved network, you can load it in your program using the ***load*** method, which also accepts a filename of the saved network as an argument. **Default filename - 'network.net'**  
 ```python
 nw2 = NeuralNetwork()
-nw2.load(filename="network.txt")
+nw2.load(filename="network.net")
 ```
-And now *nw2* is a copy of *nw1*, and it will work absolutely the same.
+Now, *nw2* is a copy of *nw1*, and it will work absolutely the same.  
 
-> PS. A working example of this network you can find in the *'example'* folder.
+> A working example of this program and a couple of already trained networks you can find in the *'examples'* folder.
 
 
 
